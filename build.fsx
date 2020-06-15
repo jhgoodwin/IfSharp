@@ -47,6 +47,13 @@ Target.create "BuildNetCore" (fun _ ->
     if result.ExitCode <> 0 then failwithf "'dotnet %s' failed in %s messages: %A" "build" workingDir result.Messages
 )
 
+Target.create "RestoreNetCore" (fun _ ->
+    let workingDir = Path.getFullName "src/IfSharpNetCore"
+    let result =
+        DotNet.exec (DotNet.Options.withWorkingDirectory __SOURCE_DIRECTORY__) "restore" "IfSharpNetCore.sln"
+    if result.ExitCode <> 0 then failwithf "'dotnet %s' failed in %s messages: %A" "restore" workingDir result.Messages
+)
+
 // --------------------------------------------------------------------------------------
 // Run all targets by default. Invoke 'build <Target>' to override
 
